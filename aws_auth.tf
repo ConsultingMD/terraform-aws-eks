@@ -1,10 +1,11 @@
 resource "local_file" "config_map_aws_auth" {
+  count    = "${var.write_aws_auth_config ? 1 : 0}"
   content  = "${data.template_file.config_map_aws_auth.rendered}"
   filename = "${var.config_output_path}config-map-aws-auth_${var.cluster_name}.yaml"
-  count    = "${var.write_aws_auth_config ? 1 : 0}"
 }
 
 resource "null_resource" "update_config_map_aws_auth" {
+  count      = "${var.manage_aws_auth ? 1 : 0}"
   depends_on = ["aws_eks_cluster.this"]
 
   provisioner "local-exec" {
@@ -28,8 +29,6 @@ EOS
     config_map_rendered      = "${data.template_file.config_map_aws_auth.rendered}"
     endpoint                 = "${aws_eks_cluster.this.endpoint}"
   }
-
-  count = "${var.manage_aws_auth ? 1 : 0}"
 }
 
 data "aws_caller_identity" "current" {}
@@ -39,7 +38,7 @@ data "template_file" "launch_template_worker_role_arns" {
   template = "${file("${path.module}/templates/worker-role.tpl")}"
 
   vars {
-    worker_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${element(aws_iam_instance_profile.workers_launch_template.*.role, count.index)}"
+    worker_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${element(coalescelist(aws_iam_instance_profile.workers_launch_template.*.role, data.aws_iam_instance_profile.custom_worker_group_launch_template_iam_instance_profile.*.role_name), count.index)}"
   }
 }
 
@@ -48,7 +47,7 @@ data "template_file" "worker_role_arns" {
   template = "${file("${path.module}/templates/worker-role.tpl")}"
 
   vars {
-    worker_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${element(aws_iam_instance_profile.workers.*.role, count.index)}"
+    worker_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${element(coalescelist(aws_iam_instance_profile.workers.*.role, data.aws_iam_instance_profile.custom_worker_group_iam_instance_profile.*.role_name), count.index)}"
   }
 }
 

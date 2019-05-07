@@ -132,25 +132,27 @@ variable "worker_groups_launch_template" {
   ]
 }
 
-variable "worker_group_launch_template_count" {
-  description = "The number of maps contained within the worker_groups_launch_template list."
+variable "worker_groups_launch_template_mixed" {
+  description = "A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys."
+  type        = "list"
+
+  default = [
+    {
+      "name" = "default"
+    },
+  ]
+}
+
+variable "worker_group_launch_template_mixed_count" {
+  description = "The number of maps contained within the worker_groups_launch_template_mixed list."
   type        = "string"
   default     = "0"
 }
 
-variable "workers_group_launch_template_defaults" {
-  description = "Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys."
-  type        = "map"
-  default     = {}
-}
-
-variable "worker_group_launch_template_tags" {
-  description = "A map defining extra tags to be applied to the worker group template ASG."
-  type        = "map"
-
-  default = {
-    default = []
-  }
+variable "worker_group_launch_template_count" {
+  description = "The number of maps contained within the worker_groups_launch_template list."
+  type        = "string"
+  default     = "0"
 }
 
 variable "worker_security_group_id" {
@@ -255,5 +257,20 @@ variable "cluster_endpoint_private_access" {
 
 variable "cluster_endpoint_public_access" {
   description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled."
+  default     = true
+}
+
+variable "manage_cluster_iam_resources" {
+  description = "Whether to let the module manage cluster IAM resources. If set to false, cluster_iam_role_name must be specified."
+  default     = true
+}
+
+variable "cluster_iam_role_name" {
+  description = "IAM role name for the cluster. Only applicable if manage_cluster_iam_resources is set to false."
+  default     = ""
+}
+
+variable "manage_worker_iam_resources" {
+  description = "Whether to let the module manage worker IAM resources. If set to false, iam_instance_profile_name must be specified for workers."
   default     = true
 }

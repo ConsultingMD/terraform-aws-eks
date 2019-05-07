@@ -7,11 +7,48 @@ project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Next release
 
-## [[v2.4.0?](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v2.3.0...HEAD)] - 2019-04-??]
+## [[v4.?.?](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v4.0.0...HEAD)] - 2019-06-??]
 
 ### Added
 
 - Write your awesome addition here (by @you)
+
+### Changed
+
+- Write your awesome change here (by @you)
+
+# History
+
+## [[v4.0.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v4.0.0...v4.0.1)] - 2019-05-07]
+
+### Changed
+
+- Fix annoying typo: worker_group_xx vs worker_groups_xx (by @max-rocket-internet)
+
+## [[v4.0.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v3.0.0...v4.0.0)] - 2019-05-07]
+
+### Added
+
+- Added support for custom service linked role for Auto Scaling group (by @voanhduy1512)
+- Added support for custom IAM roles for cluster and workers (by @erks)
+- Added cluster ARN to outputs (by @alexsn)
+- Added outputs for `workers_user_data` and `workers_default_ami_id` (by @max-rocket-internet)
+- Added doc about spot instances (by @max-rocket-internet)
+- Added new worker group option with a mixed instances policy (by @max-rocket-internet)
+
+### Changed
+
+- Set default suspended processes for ASG to `AZRebalance` (by @max-rocket-internet)
+- 4 small changes to `aws_launch_template` resource (by @max-rocket-internet)
+- (Breaking Change) Rewritten and de-duplicated code related to Launch Templates (by @max-rocket-internet)
+- Add .prettierignore file (by @rothandrew)
+- Switch to https for the pre-commit repos (by @rothandrew)
+- Add instructions on how to enable the docker bridge network (by @rothandrew)
+
+## [[v3.0.0](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v2.3.1...v3.0.0)] - 2019-04-15]
+
+### Added
+
 - Fixed: Ability to destroy clusters due to security groups being attached to ENI's (by @whiskeyjimbo)
 - Added outputs for worker IAM instance profile(s) (by @soapergem)
 - Added support for cluster logging via the `cluster_enabled_log_types` variable (by @sc250024)
@@ -19,10 +56,7 @@ project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
  - Updated vpc module version and aws provider version. (by @chenrui333)
- - Write your awesome change here (by @you)
  - Upgraded default kubernetes version from 1.11 to 1.12 (by @stijndehaes)
-
-# History
 
 ## [[v2.3.1](https://github.com/terraform-aws-modules/terraform-aws-eks/compare/v2.3.0...v2.3.1)] - 2019-03-26]
 
