@@ -371,7 +371,7 @@ resource "aws_launch_template" "workers_launch_template" {
         )}-eks_asg"
       },
       {for tag in var.worker_groups_launch_template[count.index].tags[*]: 
-        tag.key = tag.value
+        tag.key = tag.value,
       },
     )
   }
