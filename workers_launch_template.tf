@@ -418,6 +418,10 @@ resource "aws_launch_template" "workers_launch_template" {
         )}-eks_asg"
       },
       var.tags,
+      {
+        for tag in var.worker_groups_launch_template[count.index].tags[*]:
+          tag.key => tag.value
+      },
     )
   }
 
@@ -434,7 +438,7 @@ resource "aws_launch_template" "workers_launch_template" {
       },
       var.tags,
       {
-        for tag in var.worker_groups_launch_template[count.index].tags[*]: 
+        for tag in var.worker_groups_launch_template[count.index].tags[*]:
           tag.key => tag.value
       },
     )
